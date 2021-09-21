@@ -6,10 +6,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import com.dfernandez.ecommercedist.domain.enums.TipoCliente;
 
@@ -31,8 +34,12 @@ public class Cliente implements Serializable{
 	private String cpfOuCnpj;
 	private Integer tipoCliente;
 	
+	@OneToMany(mappedBy = "cliente")
 	private List<Endereco> enderecos = new ArrayList<>();
 	
+	//não existe a classe telefone no Java, mas vai ter uma tabela no banco. Telefones é uma entidade fraca
+	@ElementCollection
+	@CollectionTable(name = "TELEFONE")
 	private Set<String> telefones = new HashSet<>();
 
 	public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipoCliente) {
