@@ -13,6 +13,7 @@ import com.dfernandez.ecommercedist.domain.Cidade;
 import com.dfernandez.ecommercedist.domain.Cliente;
 import com.dfernandez.ecommercedist.domain.Endereco;
 import com.dfernandez.ecommercedist.domain.Estado;
+import com.dfernandez.ecommercedist.domain.ItemPedido;
 import com.dfernandez.ecommercedist.domain.Pagamento;
 import com.dfernandez.ecommercedist.domain.PagamentoComBoleto;
 import com.dfernandez.ecommercedist.domain.PagamentoComCartao;
@@ -25,6 +26,7 @@ import com.dfernandez.ecommercedist.repositories.CidadeRepository;
 import com.dfernandez.ecommercedist.repositories.ClienteRepository;
 import com.dfernandez.ecommercedist.repositories.EnderecoRepository;
 import com.dfernandez.ecommercedist.repositories.EstadoRepository;
+import com.dfernandez.ecommercedist.repositories.ItemPedidoRepository;
 import com.dfernandez.ecommercedist.repositories.PagamentoRepository;
 import com.dfernandez.ecommercedist.repositories.PedidoRepository;
 import com.dfernandez.ecommercedist.repositories.ProdutoRepository;
@@ -48,6 +50,8 @@ public class EcommercedistApplication implements CommandLineRunner{
 	private PedidoRepository pedidoRepository;
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
 	
 
 	public static void main(String[] args) {
@@ -113,5 +117,18 @@ public class EcommercedistApplication implements CommandLineRunner{
 		
 		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
 		pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
+		
+		ItemPedido ip1 = new ItemPedido(ped1, p1, 0.00, 1, 2000.00);
+		ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 2, 80.00);
+		ItemPedido ip3 = new ItemPedido(ped2, p2, 100.00, 1, 800.00);
+		
+		ped1.getItens().addAll(Arrays.asList(ip1, ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+		
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p3.getItens().addAll(Arrays.asList(ip2));
+		
+		itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
 	}
 } 
