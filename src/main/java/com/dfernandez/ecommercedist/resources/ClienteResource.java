@@ -21,7 +21,7 @@ public class ClienteResource {
 	//@PathVariable para o parâmetro id receber o /{id}
 	//ResponseEntity encapsula as respostas http para o serviço rest
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<?> find(@PathVariable Integer id) {
+	public ResponseEntity<Cliente> find(@PathVariable Integer id) {
 		Cliente categoria = categoriaService.find(id);
 		return ResponseEntity.ok().body(categoria);
 

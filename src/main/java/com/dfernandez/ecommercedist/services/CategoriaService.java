@@ -27,4 +27,9 @@ public class CategoriaService {
 		obj.setId(null);//setId null para que o método save considere insert e não update
 		return repo.save(obj);
 	}
+
+	public Categoria update(Categoria obj) {
+		find(obj.getId());
+		return repo.save(obj);
+	}
 }
