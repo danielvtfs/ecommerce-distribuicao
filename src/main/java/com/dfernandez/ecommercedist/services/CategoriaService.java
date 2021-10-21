@@ -3,10 +3,12 @@ package com.dfernandez.ecommercedist.services;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.dfernandez.ecommercedist.domain.Categoria;
 import com.dfernandez.ecommercedist.repositories.CategoriaRepository;
+import com.dfernandez.ecommercedist.services.exceptions.DataIntegrityException;
 import com.dfernandez.ecommercedist.services.exceptions.ObjectNotFoundException;
 
 
@@ -31,5 +33,16 @@ public class CategoriaService {
 	public Categoria update(Categoria obj) {
 		find(obj.getId());
 		return repo.save(obj);
+	}
+
+	public void delete(Integer id) {
+		find(id);
+		try {
+			repo.deleteById(id);
+		} catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Não é possível excluir categoria que tenha produto ");
+		}
+		
+		
 	}
 }

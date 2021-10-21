@@ -35,8 +35,8 @@ public class CategoriaResource {
 	public ResponseEntity<Void> insert(@RequestBody Categoria obj){//@RequestBody para converter automaticamente o objeto em json
 		obj = categoriaService.insert(obj);
 		URI uri = ServletUriComponentsBuilder
-				.fromCurrentRequest()
-				.path("/{id}")
+				.fromCurrentRequest()//usa a url de inserção
+				.path("/{id}")//adiciona o id na url
 				.buildAndExpand(obj.getId())
 				.toUri();
 		return ResponseEntity.created(uri).build();
@@ -46,6 +46,12 @@ public class CategoriaResource {
 	public ResponseEntity<Void> update(@RequestBody Categoria obj, @PathVariable Integer id){
 		obj.setId(id);
 		obj = categoriaService.update(obj);
+		return ResponseEntity.noContent().build();
+	}
+	
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<Categoria> delete(@PathVariable Integer id) {
+		categoriaService.delete(id);
 		return ResponseEntity.noContent().build();
 	}
 	
