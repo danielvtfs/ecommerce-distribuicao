@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.dfernandez.ecommercedist.domain.Categoria;
+import com.dfernandez.ecommercedist.dto.CategoriaDTO;
 import com.dfernandez.ecommercedist.repositories.CategoriaRepository;
 import com.dfernandez.ecommercedist.services.exceptions.DataIntegrityException;
 import com.dfernandez.ecommercedist.services.exceptions.ObjectNotFoundException;
@@ -58,5 +59,10 @@ public class CategoriaService {
 		//pageRequest objeto que prepara as informações que retorna a consulta dos dados
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage,Direction.valueOf(direction), orderBy);
 		return repo.findAll(pageRequest);
+	}
+	
+	//metodo auxiliar que instacia uma categoria a partir de um DTO
+	public Categoria fromDTO(CategoriaDTO objDto) {
+		return new Categoria(objDto.getId(), objDto.getNome());
 	}
 }
